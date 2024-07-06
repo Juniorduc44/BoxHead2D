@@ -15,6 +15,9 @@ Requirements for running in the terminal:
 Run the game with the command:
 ```python
 python app.py # Windows environment
+```
+
+```
 python3 app.py # Linux or Mac
 ```
 
