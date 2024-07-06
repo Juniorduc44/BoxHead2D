@@ -6,19 +6,36 @@ A simple BoxHead Survivor game in 2D with [Python Arcade](https://api.arcade.aca
 
 This is a "rogue-lite", "top-down shooter" game. The core gameplay is a combination of an old 3D BoxHead zombie game and a recent popular survivor-style game.
 
-Requirements for running in the terminal:
+## Requirements for running in the terminal:
 
 - Python 3.6+
+#### Windows
+```py
+python -m venv venv #Create python environment
+```
+    
+```
+venv\Scripts\activate #Load python environment
+```
 - Arcade library(Windows) `pip install arcade` or `pip install -r requirements.txt`
+
+#### Linux
+```py
+python3 -m venv venv #Create python environment
+```
+    
+```py
+source venv/bin/activate #Load python environment
+```
 - Arcade library(Linux) `pip3 install arcade` or `pip3 install -r requirements.txt`
 
-Run the game with the command:
-```python
-python app.py # Windows environment
+### Run the game with the command:
+```py
+python app.py #Windows environment
 ```
 
-```
-python3 app.py # Linux or Mac
+```py
+python3 app.py #Linux or Mac
 ```
 
 ### Design Document
