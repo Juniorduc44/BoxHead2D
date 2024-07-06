@@ -9,7 +9,7 @@ This is a "rogue-lite", "top-down shooter" game. The core gameplay is a combinat
 Requirements for running in the terminal:
 
 - Python 3.6+
-- Arcade library `pip install arcade` or `pip3 install arcade`
+- Arcade library `pip install arcade` or `pip3 install arcade` or `pip install -r requirements.txt`
 
 Run the game with the command:
 ```python
