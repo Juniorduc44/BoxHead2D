@@ -8,26 +8,37 @@ This is a "rogue-lite", "top-down shooter" game. The core gameplay is a combinat
 
 ## Requirements for running in the terminal:
 
-- Python 3.6+
+- **Python 3.11** (verified on Python 3.11.18, 2026-11-01: a clean
+  virtual environment installed from `requirements.txt`, every module
+  imports, and the game starts up and draws its first view)
+- Do **not** use Python 3.12 or newer for now: several pinned packages
+  in `requirements.txt` predate it and have no compatible builds.
+- Do **not** `pip install arcade` on its own. This game was written for
+  Arcade 2.6, and Arcade 3.x removes or renames APIs the code uses
+  (`arcade.Camera`, `arcade.draw_rectangle_filled`,
+  `arcade.gui.UIAnchorWidget` / `UITexturePane`, `arcade.Color`).
+  Always install the pinned versions from `requirements.txt`.
+  Migrating to Arcade 3 is a separate project, not a version bump.
+
 #### Windows
 ```py
-python -m venv venv #Create python environment
+py -3.11 -m venv venv #Create python environment with Python 3.11
 ```
     
 ```
 venv\Scripts\activate #Load python environment
 ```
-- Arcade library(Windows) `pip install arcade` or `pip install -r requirements.txt`
+- Install the pinned libraries (Windows) `pip install -r requirements.txt`
 
-#### Linux
+#### Linux / Mac
 ```py
-python3 -m venv venv #Create python environment
+python3.11 -m venv venv #Create python environment with Python 3.11
 ```
     
 ```py
 source venv/bin/activate #Load python environment
 ```
-- Arcade library(Linux) `pip3 install arcade` or `pip3 install -r requirements.txt`
+- Install the pinned libraries (Linux / Mac) `pip install -r requirements.txt`
 
 ### Run the game with the command:
 ```py

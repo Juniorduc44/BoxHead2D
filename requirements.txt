@@ -1,3 +1,10 @@
+# BoxHead2D pinned environment — see the README "Requirements" section.
+# This is the Arcade 2.6-era set the game was written for, verified on
+# Python 3.11 (3.11.18, 2026-11-01): clean install, all modules import,
+# game starts. Do not use Python 3.12+ with these pins, and do not
+# upgrade Arcade to 3.x without migrating the code — Arcade 3 removes
+# or renames APIs used here (arcade.Camera, arcade.draw_rectangle_filled,
+# arcade.gui.UIAnchorWidget / UITexturePane, arcade.Color).
 arcade==2.6.17
 attrs==23.2.0
 cffi==1.16.0
