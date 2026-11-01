@@ -1,23 +1,15 @@
 import arcade
 import view
 import utils
-import pickle
 
 
 class BoxHead2d(arcade.Window):
     """ Main application class. """
 
     def __init__(self):
-        # Load settings
-        try:
-            settings = pickle.load(open("data/settings.bin", "rb"))
-        except (OSError) as e:
-            settings = utils.Setting(e_volume=2,
-                                     m_volume=2,
-                                     r_idx=0,
-                                     fullscreen=True,
-                                     lang_idx=0)
-            pickle.dump(settings, open("data/settings.bin", "wb"))
+        # Load settings from data/settings.json. A missing or
+        # corrupt file falls back to the default settings.
+        settings = utils.Setting.load()
         self.effect_volume = settings.effect_volume
         self.music_volume = settings.music_volume
         self.res_index = settings.res_index

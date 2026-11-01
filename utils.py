@@ -1,7 +1,7 @@
 
 from pyglet.math import Vec2
 import arcade.gui
-import pickle
+import json
 import math
 import collections
 
@@ -65,13 +65,12 @@ class Utils:
 
     @staticmethod
     def save_settings(window: arcade.Window):
-        with open("data/settings.bin", "wb") as setting_file:
-            settings = Setting(window.effect_volume,
-                               window.music_volume,
-                               window.res_index,
-                               window.fullscreen,
-                               window.lang_idx)
-            pickle.dump(settings, setting_file)
+        settings = Setting(window.effect_volume,
+                           window.music_volume,
+                           window.res_index,
+                           window.fullscreen,
+                           window.lang_idx)
+        settings.save()
 
     @staticmethod
     def field_path_finding(p_x: float,
@@ -147,7 +146,14 @@ class Style:
 
 
 class Setting:
-    """Game settings."""
+    """Game settings.
+
+    Settings are stored as plain JSON in data/settings.json, not
+    pickle: the file stays human-readable, and loading it can
+    never execute code the way unpickling an untrusted file can.
+    """
+
+    PATH = "data/settings.json"
 
     def __init__(self,
                  e_volume: int,
@@ -160,6 +166,66 @@ class Setting:
         self.res_index = r_idx
         self.fullscreen = fullscreen
         self.lang_idx = lang_idx
+
+    def to_dict(self) -> dict:
+        return {
+            "effect_volume": self.effect_volume,
+            "music_volume": self.music_volume,
+            "res_index": self.res_index,
+            "fullscreen": self.fullscreen,
+            "lang_idx": self.lang_idx,
+        }
+
+    @classmethod
+    def defaults(cls):
+        """The settings used when no valid settings file exists."""
+        return cls(e_volume=2,
+                   m_volume=2,
+                   r_idx=0,
+                   fullscreen=True,
+                   lang_idx=0)
+
+    @classmethod
+    def from_dict(cls, data):
+        if not isinstance(data, dict):
+            return cls.defaults()
+        defaults = cls.defaults()
+        try:
+            return cls(
+                e_volume=int(data.get("effect_volume",
+                                      defaults.effect_volume)),
+                m_volume=int(data.get("music_volume",
+                                      defaults.music_volume)),
+                r_idx=int(data.get("res_index",
+                                   defaults.res_index)),
+                fullscreen=bool(data.get("fullscreen",
+                                         defaults.fullscreen)),
+                lang_idx=int(data.get("lang_idx",
+                                      defaults.lang_idx)))
+        except (TypeError, ValueError):
+            return cls.defaults()
+
+    @classmethod
+    def load(cls):
+        """Load settings from PATH.
+
+        A missing, unreadable or corrupt file is not an error:
+        fall back to the defaults and write them out, so the
+        game always starts. An old data/settings.bin from the
+        pickle era is ignored, so settings reset to the defaults
+        once on the first run after this change.
+        """
+        try:
+            with open(cls.PATH, "r", encoding="utf-8") as setting_file:
+                return cls.from_dict(json.load(setting_file))
+        except (OSError, ValueError):
+            settings = cls.defaults()
+            settings.save()
+            return settings
+
+    def save(self) -> None:
+        with open(self.PATH, "w", encoding="utf-8") as setting_file:
+            json.dump(self.to_dict(), setting_file, indent=2)
 
 
 class Language:
